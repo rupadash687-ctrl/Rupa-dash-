@@ -1,0 +1,158 @@
+<!doctype html>
+
+<html lang="bn">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Rupa Dash Official Page</title>
+  <style>
+    :root{--green:#2e8b57;--max-width:900px}
+    body{font-family:system-ui,-apple-system,Segoe UI,Roboto,'Noto Sans Bengali',sans-serif;margin:0;padding:0;background:#f6f6f6;color:#222}
+    header{background:var(--green);color:#fff;padding:36px 16px;text-align:center}
+    header h1{margin:0;font-size:clamp(20px,5vw,40px);letter-spacing:1px}
+    .container{max-width:var(--max-width);margin:28px auto;padding:0 16px}
+    .categories{display:flex;gap:12px;flex-wrap:wrap;justify-content:center;margin-bottom:20px}
+    .card{flex:1 1 260px;min-width:220px;background:#fff;border-radius:12px;padding:20px;box-shadow:0 6px 18px rgba(0,0,0,.06);text-align:center;cursor:pointer;transition:transform .18s,box-shadow .18s}
+    .card:hover{transform:translateY(-6px);box-shadow:0 12px 30px rgba(0,0,0,.12)}
+    .card h2{margin:0 0 8px;font-size:20px}
+    .card p{margin:0;color:#555}
+    .gallery{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px;margin-bottom:20px}
+    .gallery img{width:100%;height:160px;object-fit:cover;border-radius:8px;display:block;background:#eaeaea}
+    .contact{background:#fff;border-radius:10px;padding:16px;box-shadow:0 6px 18px rgba(0,0,0,.06);display:flex;gap:12px;align-items:center;justify-content:space-between}
+    .contact .left{display:flex;gap:12px;flex-direction:column}
+    .contact a{color:var(--green);text-decoration:none;font-weight:600}
+    footer{margin:18px auto;text-align:center;color:#666;font-size:14px}
+    @media (max-width:520px){.contact{flex-direction:column;align-items:flex-start}}
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Rupa Dash Official Page</h1>
+  </header>  <main class="container">
+    <section class="categories" aria-label="Categories">
+      <div class="card" id="videoService" role="button" tabindex="0">
+        <h2>ভিডিও সার্ভিস</h2>
+        <p>ভিডিও রেকর্ডিং, এডিটিং ও প্রোডাকশন প্যাকেজ</p>
+      </div><div class="card" id="roomService" role="button" tabindex="0">
+    <h2>রুম সার্ভিস</h2>
+    <p>রুম ভাড়া, সেটআপ ও সার্ভিস প্যাকেজ</p>
+  </div>
+</section>
+
+<section>
+  <h3 style="margin:6px 0 12px;text-align:center;color:#333">ছবির গ্যালারি</h3>
+  <div class="gallery" id="gallery">
+    <!-- Images loaded by JS from Google Drive file IDs -->
+  </div>
+</section>
+
+<section style="margin-top:18px">
+  <div class="contact">
+    <div class="left">
+      <div><strong>Contact:</strong></div>
+      <div>Email: <a id="driveLink" href="https://drive.google.com/drive/folders/1cIDSkMIuV1TTj-YM3Wf0BG-uRrGLA8wt" target="_blank" rel="noopener">rupadash278@gmail.com</a></div>
+      <div>Phone: <a href="tel:+8801765010687">+8801765010687</a></div>
+    </div>
+    <div style="font-size:13px;color:#666">Touch the categories above to open service details in a new window.</div>
+  </div>
+</section>
+
+<footer>
+  © <span id="year"></span> Rupa Dash Official Page
+</footer>
+
+  </main>  <script>
+    // ------------- CONFIG: change these values if you want to edit content -----------------
+    // Service content (you can update text here)
+    const services = {
+      video: {
+        title: 'ভিডিও সার্ভিস',
+        description: 'বিশেষ ভিডিও রেকর্ডিং, এডিটিং এবং পোস্ট-প্রোডাকশন। প্যাকেজ অনুযায়ী স্টুডিও বা অন-লোকেশন।',
+        prices: [
+          {name:'বেসিক প্যাকেজ', price:'৳ ২,৫০০', details:'১ ঘণ্টার শুটিং, লাইটিং ও বেসিক এডিট'},
+          {name:'স্ট্যান্ডার্ড প্যাকেজ', price:'৳ ৫,০০০', details:'২ ঘণ্টার শুটিং, প্রফেশনাল এডিট'},
+          {name:'প্রিমিয়াম প্যাকেজ', price:'৳ ১০,০০০', details:'পুরো প্রোডাকশন—শুটিং, এডিট, কালার গ্রেডিং'}
+        ]
+      },
+      room: {
+        title: 'রুম সার্ভিস',
+        description: 'কমফর্টেবল রুম ভাড়া ও সেটআপ; ইন্টারনেট, ক্যামেরা স্ট্যান্ড, লাইটিং উপলব্ধ।',
+        prices: [
+          {name:'ঘণ্টাভিত্তিক', price:'৳ ৩০০/ঘণ্টা', details:'বেসিক রুম সেটআপ'},
+          {name:'দিনভিত্তিক', price:'৳ ২,০০০/দিন', details:'পূর্ণ সার্ভিস সহ'},
+          {name:'উইকএন্ড স্পেশাল', price:'৳ ৫,০০০/৩ দিন', details:'বিশেষ ডিসকাউন্ট'}
+        ]
+      }
+    };
+
+    // Google Drive image file IDs (use same ID if you want the file to be replaced and auto-reflect)
+    const imageFileIds = [
+      '1Ytisf_qikCo6gVQnDRet4P0sNxDaoDRy',
+      '1Ytisf_qikCo6gVQnDRet4P0sNxDaoDRy',
+      '1Ytisf_qikCo6gVQnDRet4P0sNxDaoDRy'
+    ];
+    // --------------------------------------------------------------------------------------
+
+    // Populate gallery
+    const gallery = document.getElementById('gallery');
+    imageFileIds.forEach(id =>{
+      const img = document.createElement('img');
+      // public direct view URL for google drive file id
+      img.src = `https://drive.google.com/uc?export=view&id=${id}`;
+      img.alt = 'Rupa Dash image';
+      gallery.appendChild(img);
+    });
+
+    // Category click handlers: open a new window and write service details
+    function openServiceWindow(service){
+      const s = services[service];
+      const w = window.open('', '_blank', 'noopener');
+      if(!w) { alert('নতুন উইন্ডো ব্লক হয়েছে। ব্রাউজারের পপ-আপ অনুমোদন দিন বা লিংকটি নতুন ট্যাবে খুলুন।'); return; }
+      const html = `
+        <!doctype html>
+        <html lang="bn">
+        <head>
+          <meta charset="utf-8">
+          <meta name="viewport" content="width=device-width,initial-scale=1">
+          <title>${s.title}</title>
+          <style>
+            body{font-family:system-ui,-apple-system,Segoe UI,Roboto,'Noto Sans Bengali',sans-serif;margin:0;padding:18px;background:#f8f8f8;color:#111}
+            header{background:var(--green,#2e8b57);color:#fff;padding:14px;border-radius:8px}
+            main{max-width:780px;margin:18px auto}
+            h1{margin:0;font-size:22px}
+            .price{background:#fff;padding:12px;border-radius:8px;box-shadow:0 8px 20px rgba(0,0,0,.06);margin:12px 0}
+            .price h3{margin:0 0 6px}
+            .price p{margin:0;color:#555}
+            a.drive{color:var(--green,#2e8b57);text-decoration:none;font-weight:600}
+          </style></head>
+    <body>
+      <header><h1>${s.title}</h1></header>
+      <main>
+        <p style="margin-top:12px">${s.description}</p>
+        <div>
+          ${s.prices.map(p=>`<div class=\"price\"><h3>${p.name} — ${p.price}</h3><p>${p.details}</p></div>`).join('')}
+        </div>
+        <p style="margin-top:12px">আরও তথ্য বা বুকিং এর জন্য: <a class="drive" href="https://drive.google.com/drive/folders/1cIDSkMIuV1TTj-YM3Wf0BG-uRrGLA8wt" target="_blank" rel="noopener">Google Drive Folder</a></p>
+      </main>
+    </body>
+    </html>
+  `;
+  w.document.open();
+  w.document.write(html);
+  w.document.close();
+}
+
+document.getElementById('videoService').addEventListener('click', ()=>openServiceWindow('video'));
+document.getElementById('roomService').addEventListener('click', ()=>openServiceWindow('room'));
+// keyboard accessibility
+document.getElementById('videoService').addEventListener('keypress', e=>{ if(e.key==='Enter') openServiceWindow('video')});
+document.getElementById('roomService').addEventListener('keypress', e=>{ if(e.key==='Enter') openServiceWindow('room')});
+
+// footer year
+document.getElementById('year').textContent = new Date().getFullYear();
+
+// NOTE for user: You can edit `services` object and `imageFileIds` array above to update prices/descriptions or to change which Drive file IDs are used.
+
+  </script>
+</body>
+</html>
