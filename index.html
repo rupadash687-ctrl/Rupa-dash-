@@ -26,6 +26,18 @@
   </header>
   
 <div id="date-line"></div>
+  <script>
+    // Date
+    const dateLine = document.getElementById('date-line');
+    function updateDate() {
+        const now = new Date();
+        const options = {weekday:'long', year:'numeric', month:'long', day:'numeric'};
+        const english = now.toLocaleDateString('en-US', options);
+        const bangla = now.toLocaleDateString('bn-BD', options);
+        const arabic = now.toLocaleDateString('ar-EG', options);
+        dateLine.innerText = `বাংলা: ${bangla} | English: ${english} | عربي: ${arabic}`;
+    }
+    </script>
   
   <main class="container">
     <section class="categories">
